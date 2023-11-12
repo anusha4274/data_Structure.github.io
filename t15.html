@@ -1,0 +1,95 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Assignment</title>
+</head>
+
+<body>
+  
+<pre>  #include stdio.h&gt;
+    #include stdlib.h&gt;
+    
+    struct TreeNode {
+        int data;
+        struct TreeNode* left;
+        struct TreeNode* right;
+    };
+    
+    struct TreeNode* createNode(int data) {
+        struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+        newNode-&gt;data = data;
+        newNode-&gt;left = NULL;
+        newNode-&gt;right = NULL;
+        return newNode;
+    }
+    
+    struct TreeNode* constructBST(int preorder[], int n) {
+        struct TreeNode* root = NULL;
+        if (n &lt;= 0) {
+            return root;
+        }
+        
+        root = createNode(preorder[0]);
+        int i;
+        for (i = 1; i &lt; n; i++) {
+            if (preorder[i] &gt; root-&gt;data) {
+                break;
+            }
+        }
+        
+        root-&gt;left = constructBST(preorder + 1, i - 1);
+        root-&gt;right = constructBST(preorder + i, n - i);
+        
+        return root;
+    }
+    
+    void inorderTraversal(struct TreeNode* root) {
+        if (root != NULL) {
+            inorderTraversal(root-&gt;left);
+            printf("%d ", root-&gt;data);
+            inorderTraversal(root-&gt;right);
+        }
+    }
+    
+    int main() {
+        int n, i;
+    
+        printf("Enter the number of elements in the preorder traversal: ");
+        scanf("%d", &amp;n);
+    
+        if (n &lt;= 0) {
+            printf("Invalid input.\n");
+            return 1;
+        }
+    
+        int* preorder = (int*)malloc(n * sizeof(int));
+    
+        printf("Enter the elements in preorder traversal:\n");
+        for (i = 0; i &lt; n; i++) {
+            scanf("%d", &amp;preorder[i]);
+        }
+    
+        struct TreeNode* root = constructBST(preorder, n);
+    
+        printf("Inorder Traversal of Constructed BST: ");
+        inorderTraversal(root);
+        printf("\n");
+    
+        free(preorder);
+        return 0;
+    }
+</pre>
+<pre class="text-small"><b class="text-big">Output:</b>
+Enter the number of elements in the preorder traversal: 5               
+Enter the elements in preorder traversal:
+8
+2
+6
+4
+1
+Inorder Traversal of Constructed BST: 2 1 4 6 8
+</pre>
+
+</body>
+</html>

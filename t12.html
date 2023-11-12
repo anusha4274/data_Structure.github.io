@@ -1,0 +1,98 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Assignment</title>
+ 
+</head>
+
+<body>
+  
+<pre class="text-small">    #include <stdio.h>
+        #include <stdlib.h>
+        
+        struct Node {
+            int data;
+            struct Node* left;
+            struct Node* right;
+        };
+        
+        struct Node* createNode(int data) {
+            struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+            newNode-&gt;data = data;
+            newNode-&gt;left = NULL;
+            newNode-&gt;right = NULL;
+            return newNode;
+        }
+        
+        struct Node* insert(struct Node* root, int data) {
+            if (root == NULL) {
+                return createNode(data);
+            }
+            if (data &lt; root-&gt;data) {
+                root-&gt;left = insert(root-&gt;left, data);
+            } else if (data &gt; root-&gt;data) {
+                root-&gt;right = insert(root-&gt;right, data);
+            }
+            return root;
+        }
+        
+        int kthLargestUtil(struct Node* root, int* k, int* result) {
+            if (root == NULL || *k == 0) {
+                return *result;
+            }
+        
+            kthLargestUtil(root-&gt;right, k, result);
+        
+            if (*k &gt; 0) {
+                (*k)--;
+                *result = root-&gt;data;
+            }
+        
+            kthLargestUtil(root-&gt;left, k, result);
+        
+            return *result;
+        }
+        
+        int kthLargest(struct Node* root, int k) {
+            int result = 0;
+            return kthLargestUtil(root, &amp;k, &amp;result);
+        }
+        
+        int main() {
+            int n, k;
+            printf("Enter the number of elements in the array: ");
+            scanf("%d", &amp;n);
+        
+            int arr[n];
+            printf("Enter the elements of the array: ");
+            for (int i = 0; i &lt; n; i++) {
+                scanf("%d", &amp;arr[i]);
+            }
+        
+            struct Node* root = NULL;
+        
+            for (int i = 0; i &lt; n; i++) {
+                root = insert(root, arr[i]);
+            }
+        
+            printf("Enter the value of k to find the kth largest element: ");
+            scanf("%d", &amp;k);
+        
+            int kth = kthLargest(root, k);
+        
+            printf("The %dth largest element is: %d\n", k, kth);
+        
+            return 0;
+        }        
+</stdlib.h></stdio.h></pre>
+<pre class="text-small"><b class="text-big">Output:</b>
+Enter the number of elements in the array: 4
+Enter the elements of the array: 7
+4
+6
+1
+Enter the value of k to find the kth largest element: 1
+</pre>
+
+</body></html>

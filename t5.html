@@ -1,0 +1,105 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Assignment</title>
+ 
+</head>
+
+<body>
+   
+<pre class="text-small">    #include stdio.h&gt;
+    #include stdlib.h&gt;
+    
+    struct TreeNode {
+        int data;
+        struct TreeNode* left;
+        struct TreeNode* right;
+    };
+    
+    typedef struct TreeNode TreeNode;
+    
+    TreeNode* createTreeNode(int data) {
+        TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+        newNode-&gt;data = data;
+        newNode-&gt;left = NULL;
+        newNode-&gt;right = NULL;
+        return newNode;
+    }
+    
+    int search(int inorder[], int start, int end, int data) {
+        int i;
+        for (i = start; i &lt;= end; i++) {
+            if (inorder[i] == data) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    TreeNode* buildBinaryTree(int inorder[], int postorder[], int inStart, int inEnd, int* postIndex) {
+        if (inStart &gt; inEnd) {
+            return NULL;
+        }
+    
+        TreeNode* root = createTreeNode(postorder[*postIndex]);
+        (*postIndex)--;
+    
+        if (inStart == inEnd) {
+            return root;
+        }
+    
+        int inIndex = search(inorder, inStart, inEnd, root-&gt;data);
+    
+        root-&gt;right = buildBinaryTree(inorder, postorder, inIndex + 1, inEnd, postIndex);
+        root-&gt;left = buildBinaryTree(inorder, postorder, inStart, inIndex - 1, postIndex);
+    
+        return root;
+    }
+    
+    void inorderTraversal(TreeNode* root) {
+        if (root == NULL) {
+            return;
+        }
+    
+        inorderTraversal(root-&gt;left);
+        printf("%d ", root-&gt;data);
+        inorderTraversal(root-&gt;right);
+    }
+    
+    int main() {
+        int n;
+        printf("Enter the number of nodes: ");
+        scanf("%d", &amp;n);
+    
+        int inorder[n], postorder[n];
+    
+        printf("Enter the inorder traversal: ");
+        for (int i = 0; i &lt; n; i++) {
+            scanf("%d", &amp;inorder[i]);
+        }
+    
+        printf("Enter the postorder traversal: ");
+        for (int i = 0; i &lt; n; i++) {
+            scanf("%d", &amp;postorder[i]);
+        }
+    
+        int postIndex = n - 1;
+        TreeNode* root = buildBinaryTree(inorder, postorder, 0, n - 1, &amp;postIndex);
+    
+        printf("Inorder traversal of the constructed binary tree: ");
+        inorderTraversal(root);
+        printf("\n");
+    
+        return 0;
+    }
+</pre>
+<pre class="text-small"><b class="text-big">Output:</b>
+
+Enter the number of nodes: 7
+Enter the inorder traversal: 4 2 5 1 6 3 7
+Enter the postorder traversal: 4 5 2 6 7 3 1
+Inorder traversal of the constructed binary tree: 1 2 3 4 5 6 7
+</pre>
+
+</body></html>

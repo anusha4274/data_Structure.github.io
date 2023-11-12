@@ -1,0 +1,299 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Assignment</title>
+   
+</head>
+
+<body>
+  
+<pre class="text-small">    #include stdio.h&gt;
+    #include stdlib.h&gt;
+    
+    struct TreeNode {
+        int data;
+        struct TreeNode* left;
+        struct TreeNode* right;
+    };
+    
+    typedef struct TreeNode TreeNode;
+    
+    TreeNode* createNode(int data) {
+        TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+        newNode-&gt;data = data;
+        newNode-&gt;left = newNode-&gt;right = NULL;
+        return newNode;
+    }
+    
+    TreeNode* insert(TreeNode* root, int data) {
+        if (root == NULL) {
+            return createNode(data);
+        }
+        
+        if (data &lt; root-&gt;data) {
+            root-&gt;left = insert(root-&gt;left, data);
+        } else if (data &gt; root-&gt;data) {
+            root-&gt;right = insert(root-&gt;right, data);
+        }
+        
+        return root;
+    }
+    
+    int findMin(TreeNode* root) {
+        if (root-&gt;left == NULL) {
+            return root-&gt;data;
+        }
+        return findMin(root-&gt;left);
+    }
+    
+    TreeNode* delete(TreeNode* root, int data) {
+        if (root == NULL) {
+            return root;
+        }
+        
+        if (data &lt; root-&gt;data) {
+            root-&gt;left = delete(root-&gt;left, data);
+        } else if (data &gt; root-&gt;data) {
+            root-&gt;right = delete(root-&gt;right, data);
+        } else {
+            if (root-&gt;left == NULL) {
+                TreeNode* temp = root-&gt;right;
+                free(root);
+                return temp;
+            } else if (root-&gt;right == NULL) {
+                TreeNode* temp = root-&gt;left;
+                free(root);
+                return temp;
+            }
+            
+            root-&gt;data = findMin(root-&gt;right);
+            root-&gt;right = delete(root-&gt;right, root-&gt;data);
+        }
+        return root;
+    }
+    
+    void preorder(TreeNode* root) {
+        if (root != NULL) {
+            printf("%d ", root-&gt;data);
+            preorder(root-&gt;left);
+            preorder(root-&gt;right);
+        }
+    }
+    
+    void inorder(TreeNode* root) {
+        if (root != NULL) {
+            inorder(root-&gt;left);
+            printf("%d ", root-&gt;data);
+            inorder(root-&gt;right);
+        }
+    }
+    
+    void postorder(TreeNode* root) {
+        if (root != NULL) {
+            postorder(root-&gt;left);
+            postorder(root-&gt;right);
+            printf("%d ", root-&gt;data);
+        }
+    }
+    
+    TreeNode* search(TreeNode* root, int data) {
+        if (root == NULL || root-&gt;data == data) {
+            return root;
+        }
+        
+        if (root-&gt;data &lt; data) {
+            return search(root-&gt;right, data);
+        }
+        return search(root-&gt;left, data);
+    }
+    
+    int main() {
+        TreeNode* root = NULL;
+        int choice, data;
+        
+        do {
+            printf("1. Insert\n2. Delete\n3. Search\n4. Preorder\n5. Inorder\n6. Postorder\n7. Find Minimum\n0. Exit\n");
+            printf("Enter your choice: ");
+            scanf("%d", &amp;choice);
+            
+            switch (choice) {
+                case 1:
+                    printf("Enter data to insert: ");
+                    scanf("%d", &amp;data);
+                    root = insert(root, data);
+                    break;
+                case 2:
+                    printf("Enter data to delete: ");
+                    scanf("%d", &amp;data);
+                    root = delete(root, data);
+                    break;
+                case 3:
+                    printf("Enter data to search: ");
+                    scanf("%d", &amp;data);
+                    if (search(root, data) != NULL) {
+                        printf("Element found in the BST\n");
+                    } else {
+                        printf("Element not found in the BST\n");
+                    }
+                    break;
+                case 4:
+                    printf("Preorder traversal: ");
+                    preorder(root);
+                    printf("\n");
+                    break;
+                case 5:
+                    printf("Inorder traversal: ");
+                    inorder(root);
+                    printf("\n");
+                    break;
+                case 6:
+                    printf("Postorder traversal: ");
+                    postorder(root);
+                    printf("\n");
+                    break;
+                case 7:
+                    if (root != NULL) {
+                        int min = findMin(root);
+                        printf("Minimum element in the BST: %d\n", min);
+                    } else {
+                        printf("BST is empty\n");
+                    }
+                    break;
+                case 0:
+                    printf("Exiting the program\n");
+                    break;
+                default:
+                    printf("Invalid choice. Please try again.\n");
+            }
+        } while (choice != 0);
+        
+        return 0;
+    }
+</pre>
+<pre class="text-small"><b class="text-big">Output:</b>
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 1
+Enter data to insert: 10
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 1
+Enter data to insert: 5
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 1
+Enter data to insert: 15
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 4
+Preorder traversal: 10 5 15
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 5
+Inorder traversal: 5 10 15
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 6
+Postorder traversal: 5 15 10
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 3
+Enter data to search: 10
+Element found in the BST
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 7
+Minimum element in the BST: 5
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 2
+Enter data to delete: 10
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 4
+Preorder traversal: 5 15
+
+1. Insert
+2. Delete
+3. Search
+4. Preorder Traversal
+5. Inorder Traversal
+6. Postorder Traversal
+7. Find Minimum Element
+0. Exit
+Enter your choice: 0
+Exiting the program
+</pre>
+
+</body></html>

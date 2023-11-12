@@ -1,0 +1,145 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Assignment</title>
+
+</head>
+
+<body>
+   
+<pre class="text-small">    #include <stdio.h>
+        #include <stdlib.h>
+        
+        struct TreeNode {
+            int data;
+            struct TreeNode* left;
+            struct TreeNode* right;
+        };
+        
+        struct QueueNode {
+            struct TreeNode* data;
+            struct QueueNode* next;
+        };
+        
+        struct Queue {
+            struct QueueNode* front;
+            struct QueueNode* rear;
+        };
+        
+        struct Queue* createQueue() {
+            struct Queue* queue = (struct Queue*)malloc(sizeof(struct Queue));
+            queue-&gt;front = NULL;
+            queue-&gt;rear = NULL;
+            return queue;
+        }
+        
+        int isEmpty(struct Queue* queue) {
+            return (queue-&gt;front == NULL);
+        }
+        
+        void enqueue(struct Queue* queue, struct TreeNode* data) {
+            struct QueueNode* newNode = (struct QueueNode*)malloc(sizeof(struct QueueNode));
+            newNode-&gt;data = data;
+            newNode-&gt;next = NULL;
+            if (isEmpty(queue)) {
+                queue-&gt;front = newNode;
+                queue-&gt;rear = newNode;
+            } else {
+                queue-&gt;rear-&gt;next = newNode;
+                queue-&gt;rear = newNode;
+            }
+        }
+        
+        struct TreeNode* dequeue(struct Queue* queue) {
+            if (isEmpty(queue)) {
+                return NULL;
+            }
+            struct QueueNode* temp = queue-&gt;front;
+            struct TreeNode* data = temp-&gt;data;
+            queue-&gt;front = queue-&gt;front-&gt;next;
+            free(temp);
+            return data;
+        }
+        
+        struct TreeNode* createNode(int data) {
+            struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+            newNode-&gt;data = data;
+            newNode-&gt;left = NULL;
+            newNode-&gt;right = NULL;
+            return newNode;
+        }
+        
+        void levelOrderTraversal(struct TreeNode* root) {
+            if (root == NULL) {
+                return;
+            }
+        
+            struct Queue* queue = createQueue();
+            enqueue(queue, root);
+        
+            while (!isEmpty(queue)) {
+                struct TreeNode* current = dequeue(queue);
+                printf("%d ", current-&gt;data);
+        
+                if (current-&gt;left != NULL) {
+                    enqueue(queue, current-&gt;left);
+                }
+                if (current-&gt;right != NULL) {
+                    enqueue(queue, current-&gt;right);
+                }
+            }
+        }
+        
+        int main() {
+            int data;
+            struct TreeNode* root = NULL;
+        
+            printf("Enter the root data: ");
+            scanf("%d", &amp;data);
+            root = createNode(data);
+        
+            struct Queue* queue = createQueue();
+            enqueue(queue, root);
+        
+            while (!isEmpty(queue)) {
+                struct TreeNode* current = dequeue(queue);
+                int leftData, rightData;
+                printf("Enter left child data for %d (or -1 to skip): ", current-&gt;data);
+                scanf("%d", &amp;leftData);
+                if (leftData != -1) {
+                    current-&gt;left = createNode(leftData);
+                    enqueue(queue, current-&gt;left);
+                }
+        
+                printf("Enter right child data for %d (or -1 to skip): ", current-&gt;data);
+                scanf("%d", &amp;rightData);
+                if (rightData != -1) {
+                    current-&gt;right = createNode(rightData);
+                    enqueue(queue, current-&gt;right);
+                }
+            }
+        
+            printf("Level-Order Traversal of the Binary Tree: ");
+            levelOrderTraversal(root);
+            printf("\n");
+        
+            return 0;
+        }
+</stdlib.h></stdio.h></pre>
+<pre class="text-small"><b class="text-big">Output:</b>
+
+Enter left child data for 5 (or -1 to skip): 2
+Enter right child data for 5 (or -1 to skip): 3
+Enter left child data for 2 (or -1 to skip): -1
+Enter right child data for 2 (or -1 to skip): 2
+Enter left child data for 3 (or -1 to skip): 5
+Enter right child data for 3 (or -1 to skip): -1
+Enter left child data for 2 (or -1 to skip): -1
+Enter right child data for 2 (or -1 to skip): -1
+Enter left child data for 5 (or -1 to skip): -1
+Enter right child data for 5 (or -1 to skip): -1
+Level-Order Traversal of the Binary Tree: 5 2 3 2 5                       
+</pre>
+
+</body></html>
