@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <pre>
+        <code>
+            #include&ltstdio.h&gt
+                //multiply 2 matrix
+                void main()
+                {
+                    int ar1[3][3];
+                    int ar2[3][3];
+                    int i,j;
+                    printf("Enter elements of first matrix:\n");
+                    for(i=0;i &lt3;i++)
+                    {
+                        for(j=0;j &lt3;j++)
+                        {
+                            printf("array element [%d][%d]=",i,j);
+                            scanf("%d",&ar1[i][j]);
+                        }
+                    }
+                    for(i=0;i &lt3;i++)
+                    {
+                        for(j=0;j &lt3;j++)
+                        {
+                            printf("array element [%d][%d]=",i,j);
+                            scanf("%d",&ar2[i][j]);
+                        }
+                    }
+                    //multiplication
+                    int result[3][3],sum;
+                    for(i=0;i &lt3;i++)
+                    {
+                        for(j=0;j &lt3;j++)
+                        {
+                            sum = 0;
+                            for(int k=0;k &lt3;k++)
+                            sum += ar1[i][k]*ar2[k][j];
+                            result[i][j] = sum;
+                            }
+                            }
+                            printf("\nthe product of two matrices is :\n");
+                            for(i=0;i &lt3;i++)
+                            {
+                                for(j=0;j &lt3;j++)
+                                printf("%d ",result[i][j]);
+                                printf("\n");
+                            }
+                }
+        </code>
+    </pre>
+
+      <pre>
+          <h1>OUTPUT</h1>
+          Enter the elements of first matrix
+          matrix element[0][0]1
+          matrix element[0][1]12
+          matrix element[0][2]34
+          5matrix element[1][0]6
+          matrix element[1][1]76
+          matrix element[1][2]87
+          matrix element[2][0]23
+          matrix element[2][1]23
+          matrix element[2][2]12
+          Enter the elements of second matrix 
+           matrix element[0][0]98
+           matrix element[0][1]54
+           matrix element[0][2]45
+           matrix element[1][0]87
+           matrix element[1][1]35
+           matrix element[1][2]65
+           matrix element[2][0]89
+           matrix element[2][1]65
+           matrix element[2][2]45
+           -97 -42 -11 
+          -81 41 22 
+          -66 -42 -33
+      </pre>
+
+    
+</body>
+</html>
